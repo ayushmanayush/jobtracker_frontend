@@ -7,8 +7,10 @@ export const SuccessfullPage = ()=>
     useEffect(()=>{
         const param = new URLSearchParams(window.location.search);
         const token = param.get("token");
+        const name = param.get("name");
         if(token != null){
             localStorage.setItem("token",token);
+            localStorage.setItem("name",name);
             setTimeout(()=>{
                 navigate("/dashboard")
             },1500);
