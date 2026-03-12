@@ -62,7 +62,7 @@ export const LoginForm = () =>{
             <button className={styles.loginbtn} onClick={checkdata}>Sign In</button>
             <p>-----------------------------------------------------------</p>
             <button onClick={()=>{
-                window.location.href="https://jobtracker-backend-609f.onrender.com/oauth2/authorization/google"
+                window.location.href="https://jobtracker-backend-609f.onrender.com/login/oauth2/code/google"
             }} className={styles.googlebtn}><img src={googlelogo}/>Continue with Google</button>
             <p className={styles.newaccountline}>Don't have an Account? <a onClick={()=>{
                 navigate("/register")

@@ -77,7 +77,7 @@ export const RegisterForm = () => {
                 onClick={checkregister}>Sign Up</button>
                 <p className={styles.socialline}>------------------Social Sign up---------------------</p>
                 <button onClick={()=>{
-                    window.location.href="https://jobtracker-backend-609f.onrender.com/oauth2/authorization/google";
+                    window.location.href="https://jobtracker-backend-609f.onrender.com/login/oauth2/code/google";
                 }} className={styles.googlebtn}><img src={googlelogo}/>Continue with Google
                 </button>
 
