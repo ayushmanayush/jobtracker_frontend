@@ -1,0 +1,144 @@
+.navBar{
+    margin: 0;
+    justify-content: space-between;
+    height: max-content;
+    display: flex;
+}
+.navBar .logo img{
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+
+}
+.navBar .logo{
+    display: inline-block;
+}
+.navBar .logo{
+    margin-top: 0;
+    font-size:25px;
+    color: black;
+    display: flex;
+    align-content: start;
+}
+.btnContainer{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 0;
+    height: min-content;
+    width: min-content;
+}
+.loginbtn{
+    height: 45px;
+    width: 90px;
+    border-radius: 10px;
+    color: black;
+    background-color: white;
+    font-weight: 1000;
+    border: none;
+    outline: none;
+    cursor:pointer;}
+.signbtn{
+    height: 45px;
+    width: 100px;
+    margin: 10px;
+    background-color: #2563eb;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor:pointer;
+}
+.loginbtn:hover,
+.signbtn:hover{
+    transform: scale(1.1);
+}
+.loginbtn,
+.signbtn{
+    transition: transform 0.4s ease;
+}
+.line h1{
+    color: black;
+    font-size:60px;
+}
+.line p{
+    color: rgb(7, 69, 93);
+    font-size: 30px;
+}
+.getStartedbtn{
+    height: 45px;
+    width: 300px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: #052845;
+    font-size: 20px;
+}
+.getStartedbtn:hover{
+    transform: translateY(-4px);
+    transition: transform 0.4s ease;
+}
+.funcContainer{
+    margin-top: 80px;
+    display: flex;
+    gap: 192px;
+    align-items: center;
+    justify-content: center;
+}
+.funcContainer div{
+    height: 280px;
+    width: 220px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)
+}
+.funcContainer div:hover{
+    transform: translateY(-10px);
+    transition: transform 0.3s ease;
+    box-shadow:  0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.funcContainer div h4{
+    color: black;
+    font-size: 20px;
+}
+.funcContainer p{
+    color: 	#505050;
+    font-size: 18px;
+    font-weight: 500;
+}
+hr{
+    margin-top: 50px;
+}
+.footer .logo img{
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+.footer .logo{margin-top: 0;
+    font-size:20px;
+    color: black;
+    display: flex;
+    align-content: start;}
+.footer p{
+    color: black;
+}
+.footer .pp{
+    display: flex;
+    align-items: start;
+    margin-top: 0;
+}
+.maincontainer{
+    opacity: 0;
+    animation: pageFade 1s ease forwards;
+  animation-delay: 0.2s;
+}
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

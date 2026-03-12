@@ -1,0 +1,13 @@
+.mainContainer{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.mainContainer h2{
+    color: black;
+}
+.mainContainer h1{
+    color: black;
+}

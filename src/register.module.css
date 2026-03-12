@@ -1,0 +1,140 @@
+.mainContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.backbtn{
+    background: none;
+    border: none;
+    color: grey;
+    cursor: pointer;
+    font-size: 15px;
+}
+.backbtn:hover{
+    color: black;
+}
+.backbtnContainer{
+    align-self: flex-start;
+}
+.registerbox{
+    width: 440px;
+    height: 780px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 1px 1px lightseagreen;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    padding:40px;
+}
+.registerbox img{
+    width: 30px;
+    height: 30px;
+    margin-left: 200px;
+}
+.registerbox h3{
+    color: black;
+}
+.advline{
+    color: rgb(15, 104, 114);
+    margin-top: -10px;
+    margin-left: 70px;
+}
+.registerbox input{
+        width: 90%;
+    height:40px;
+    background-color: #f8fafc;
+    box-shadow: 0 0 1px 1px darkcyan;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 30px;
+    font-weight: 580;
+}
+.registerbox input::placeholder{
+    text-align: center;
+    margin-right: 15px;
+}
+.registerbox p{
+    color: black;
+    font-weight: 500;
+    align-self: flex-start;
+}
+hr{
+    margin-top: 10px;
+}
+.signbtn{
+        width: 95%;
+    height: 45px;
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-left: 3px;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    font-weight: 600;
+    color: black;
+    box-shadow:0 0 1px 1px #2563eb;
+}
+.signbtn:hover{
+        background-color: #4177ec;
+    color: white;
+    transform: translateY(-4px);
+    transition: transform 0.3s ease;
+}
+.googlebtn{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    background-color: white;
+    color: gray;
+    cursor: pointer;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 1px 1px darkgreen;
+    width: 100%;
+    height: 40px;
+}
+.googlebtn img{
+    width: 20px;
+    height: 20px;
+    margin-left: -16px;
+    margin-right: 10px;
+}
+.googlebtn:hover{
+    color: black;
+}
+.socialline{
+    margin-left: 20px;
+}
+.alreadyLine{
+    margin-left: 100px;
+}
+a{
+    cursor: pointer;
+}
+.mainContainer{
+    opacity: 0;
+    animation: pageFade 1s ease forwards;
+  animation-delay: 0.2s;
+}
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
