@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import styles from "./oauthsuccessHandeler"
+import styles from "./oauthsucceshandeler.module.css"
 import { useNavigate } from "react-router-dom"
 export const successfullPage = ()=>
 {   
