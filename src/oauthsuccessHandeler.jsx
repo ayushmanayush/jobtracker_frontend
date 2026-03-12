@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "./oauthsucceshandeler.module.css"
 import { useNavigate } from "react-router-dom"
-export const successfullPage = ()=>
+export const SuccessfullPage = ()=>
 {   
     const navigate   = useNavigate();
     useEffect(()=>{
