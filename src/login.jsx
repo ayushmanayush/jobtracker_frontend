@@ -26,6 +26,7 @@ export const LoginForm = () =>{
             headers : {
                 "Content-Type" : "application/json"
             },
+            credentials: "include",
             body : JSON.stringify(obj)
         });
         const response =await data.json();
@@ -33,7 +34,7 @@ export const LoginForm = () =>{
             alert("login Successfull");
             localStorage.setItem("token",response.accessToken);
             localStorage.setItem("name",response.fullName);
-            navigate("/Dashboard");
+            navigate("/dashboard");
         }
         }
     catch(exception){
@@ -60,9 +61,10 @@ export const LoginForm = () =>{
             <p>Password : </p>
             <input value={pasword} onChange={(e)=>{setPassword(e.target.value)}} type="password" placeholder="Enter your Password"  />
             <button className={styles.loginbtn} onClick={checkdata}>Sign In</button>
-            <p>-----------------------------------------------------------</p>
+            <p>------------------------------------------------</p>
             <button onClick={()=>{
                 window.location.href="https://jobtracker-backend-609f.onrender.com/oauth2/authorization/google"
+                // window.location.href = "http://localhost:8080/login/oauth2/code/google";
             }} className={styles.googlebtn}><img src={googlelogo}/>Continue with Google</button>
             <p className={styles.newaccountline}>Don't have an Account? <a onClick={()=>{
                 navigate("/register")

@@ -20,6 +20,6 @@ export const SuccessfullPage = ()=>
         }
     },[navigate]);
     return <div className={styles.MainBody}>
-        <h1>Login SuccessFull </h1>
+        <h1>Login Successful</h1>
     </div>
 }

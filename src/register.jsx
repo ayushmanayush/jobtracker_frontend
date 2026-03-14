@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 export const RegisterForm = () => {
     const [name, setName] = useState(``);
     const [email, setMail] = useState(``);
-    const [pasword , setPassword] = useState(``);
+    const [pasword, setPassword] = useState(``); // Renaming internally to match logic below
     const [cnfPassword , setCnfPassword] = useState(``);
     const navigate = useNavigate();
     function checkregister(){
@@ -75,9 +75,10 @@ export const RegisterForm = () => {
                 <input value={cnfPassword} onChange={(e)=>setCnfPassword(e.target.value)} type="password" placeholder="Confirm Password" />
                 <button className={styles.signbtn} 
                 onClick={checkregister}>Sign Up</button>
-                <p className={styles.socialline}>------------------Social Sign up---------------------</p>
+                <p className={styles.socialline}>---------------Social Sign up--------------</p>
                 <button onClick={()=>{
                     window.location.href="https://jobtracker-backend-609f.onrender.com/register/oauth2/authorization/google";
+                    // window.location.href = "http://localhost:8080/login/oauth2/code/google";
                 }} className={styles.googlebtn}><img src={googlelogo}/>Continue with Google
                 </button>
 

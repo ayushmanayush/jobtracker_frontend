@@ -1,0 +1,122 @@
+.containerA {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    min-height: calc(100vh - 80px);
+}
+
+.formCard {
+    background-color: #ffffff;
+    padding: 48px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 540px;
+    border: 1px solid #e2e8f0;
+}
+
+.formCard h2 {
+    margin: 0 0 12px 0;
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: -0.025em;
+}
+
+.formCard p {
+    margin: 0 0 40px 0;
+    color: #64748b;
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputGroup label {
+    font-weight: 600;
+    color: #475569;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.inputGroup input {
+    padding: 14px 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+.inputGroup input::placeholder {
+    color: #94a3b8;
+}
+
+.inputGroup input:focus {
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.submitBtn {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.submitBtn:hover:not(:disabled) {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.submitBtn:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.message {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.success {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #d1fae5;
+}
+
+.error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fee2e2;
+}
