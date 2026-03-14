@@ -2,7 +2,7 @@ import MyPieChart from './Drawable';
 import { LoginForm } from './login';
 import { LandingPage } from './landingPage';
 import { RegisterForm } from './register';
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Outlet } from "react-router-dom"
 import { Dashboard } from './dashboard';
 import { SuccessfullPage } from './oauthsuccessHandeler';
 import { Layout } from './Layout';
@@ -16,10 +16,12 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
-        <Route path="/oauthsuccess" element={<SuccessfullPage />} />
+        <Route element={<div className="public-wrapper"><Outlet /></div>}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/oauthsuccess" element={<SuccessfullPage />} />
+        </Route>
         <Route element={<Layout />}>
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/apply-jobs' element={<ApplyJobs />} />

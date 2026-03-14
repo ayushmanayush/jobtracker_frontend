@@ -1,6 +1,13 @@
-/* Removing global constraints to allow layout to fill screen */
 #root {
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* Wrapper to isolate original centered/constrained look for public pages */
+.public-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

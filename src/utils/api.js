@@ -1,12 +1,12 @@
 export const fetchWithAuth = async (url, options = {}) => {
     // 1. Ensure headers exist and add current access token
     const token = localStorage.getItem('token');
-    
+
     const headers = {
         'Content-Type': 'application/json',
         ...options.headers,
     };
-    
+
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
     }
@@ -32,15 +32,19 @@ export const fetchWithAuth = async (url, options = {}) => {
 
             if (refreshResponse.ok) {
                 const data = await refreshResponse.json();
-                
+                const newToken = data.accessToken || data.token;
+                const newName = data.fullName || data.name;
+
                 // Update local storage with new access token and name
-                localStorage.setItem('token', data.accessToken);
-                if (data.fullName) {
-                    localStorage.setItem('name', data.fullName);
+                if (newToken) {
+                    localStorage.setItem('token', newToken);
+                }
+                if (newName) {
+                    localStorage.setItem('name', newName);
                 }
 
                 // 4. Retry original request with the NEW token
-                config.headers['Authorization'] = `Bearer ${data.accessToken}`;
+                config.headers['Authorization'] = `Bearer ${newToken}`;
                 response = await fetch(url, config);
             } else {
                 // Refresh failed (e.g., refresh token expired or absent)

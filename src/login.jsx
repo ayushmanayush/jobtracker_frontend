@@ -3,72 +3,103 @@ import logo from "./assets/icons8-briefcase-128.png"
 import googlelogo from "./assets/icons8-google-logo-94.png"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-export const LoginForm = () =>{
-    function checkdata(){
-        if(email === ""){
+export const LoginForm = () => {
+    function checkdata() {
+        if (email === "") {
             alert("username Cannot be empty !!!!");
         }
-        else if(pasword === ""){
+        else if (pasword === "") {
             alert("Password cannot be empty !!!!");
         }
-        else{
+        else {
             const obj = {
-                username : email,
-                password : pasword
+                username: email,
+                password: pasword
             }
             FetchData(obj);
         }
     }
-    async function FetchData(obj){
-        try{
-        const data = await fetch("https://jobtracker-backend-609f.onrender.com/auth/login",{
-            method : "POST",
-            headers : {
-                "Content-Type" : "application/json"
-            },
-            credentials: "include",
-            body : JSON.stringify(obj)
-        });
-        const response =await data.json();
-        if(data.ok){
-            alert("login Successfull");
-            localStorage.setItem("token",response.accessToken);
-            localStorage.setItem("name",response.fullName);
-            navigate("/dashboard");
+    async function FetchData(obj) {
+        try {
+            const data = await fetch("https://jobtracker-backend-609f.onrender.com/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: 'include',
+                body: JSON.stringify(obj)
+            });
+            const response = await data.json();
+            if (data.ok) {
+                alert("login Successfull");
+                const token = response.accessToken || response.token;
+                const name = response.fullName || response.name;
+                
+                if (token) localStorage.setItem("token", token);
+                if (name) localStorage.setItem("name", name);
+                
+                navigate("/dashboard");
+            }
         }
+        catch (exception) {
+            console.log(exception.message);
+            alert("something went wrong");
         }
-    catch(exception){
-        console.log(exception.message);
-        alert("something went wrong");
-    }
     }
     const navigate = useNavigate();
     const [email, setMail] = useState(``);
-    const [pasword , setPassword] = useState(``);
-    return <div className={styles.mainContainer}>
-        <div className={styles.backbtnContainer}>
-            <button className={styles.backbtn} onClick={()=>{
-                navigate("/");
-            }}>&larr;  Back to Home</button>
+    const [pasword, setPassword] = useState(``);
+    return (
+        <div className={styles.mainContainer}>
+            <div className={styles.backbtnContainer}>
+                <button className={styles.backbtn} onClick={() => {
+                    navigate("/");
+                }}><span>&larr;</span> Back to Home</button>
+            </div>
+            
+            <div className={styles.loginbox}>
+                <div className={styles.headerSection}>
+                    <img className={styles.brandLogo} src={logo} alt="JobTracker Logo" />
+                    <h3>Welcome back</h3>
+                    <p className={styles.loginline}>Sign in to your account to continue</p>
+                </div>
+
+                <div className={styles.inputGroup}>
+                    <span className={styles.inputLabel}>Username</span>
+                    <input 
+                        value={email} 
+                        onChange={(e) => { setMail(e.target.value) }} 
+                        type="text" 
+                        placeholder="Enter your email" 
+                    />
+                </div>
+
+                <div className={styles.inputGroup}>
+                    <span className={styles.inputLabel}>Password</span>
+                    <input 
+                        value={pasword} 
+                        onChange={(e) => { setPassword(e.target.value) }} 
+                        type="password" 
+                        placeholder="Enter your password" 
+                    />
+                </div>
+
+                <button className={styles.loginbtn} onClick={checkdata}>Sign In</button>
+
+                <div className={styles.separator}>or continue with</div>
+
+                <button onClick={() => {
+                    window.location.href = "https://jobtracker-backend-609f.onrender.com/oauth2/authorization/google"
+                }} className={styles.googlebtn}>
+                    <img src={googlelogo} alt="Google" />
+                    Google
+                </button>
+
+                <p className={styles.newaccountline}>
+                    Don't have an account? 
+                    <a onClick={() => navigate("/register")}>Sign up</a>
+                </p>
+            </div>
         </div>
-        <div className={styles.loginbox}>
-            <img src={logo}/>
-            <h3>Welcome back</h3>
-            <p className={styles.loginline}>Sign in to your account to Continue</p>
-            <p className={styles.orelseline}>---------------------------------</p>
-            <p>Username :</p>
-            <input value={email} onChange={(e)=>{setMail(e.target.value)}} type="text" placeholder="Enter your Email"/>
-            <p>Password : </p>
-            <input value={pasword} onChange={(e)=>{setPassword(e.target.value)}} type="password" placeholder="Enter your Password"  />
-            <button className={styles.loginbtn} onClick={checkdata}>Sign In</button>
-            <p>------------------------------------------------</p>
-            <button onClick={()=>{
-                window.location.href="https://jobtracker-backend-609f.onrender.com/oauth2/authorization/google"
-                // window.location.href = "http://localhost:8080/login/oauth2/code/google";
-            }} className={styles.googlebtn}><img src={googlelogo}/>Continue with Google</button>
-            <p className={styles.newaccountline}>Don't have an Account? <a onClick={()=>{
-                navigate("/register")
-            }}>SignUp</a></p>
-        </div>
-        </div>
+    );
 }
