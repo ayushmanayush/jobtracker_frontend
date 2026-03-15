@@ -1,7 +1,7 @@
 import styles from "./register.module.css"
 import logo from "./assets/icons8-briefcase-128.png"
 import googlelogo from "./assets/icons8-google-logo-94.png"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { API_BASE_URL } from "./utils/constants"
 export const RegisterForm = () => {
@@ -10,6 +10,13 @@ export const RegisterForm = () => {
     const [pasword, setPassword] = useState(``);
     const [cnfPassword, setCnfPassword] = useState(``);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
 
     function checkregister() {
         if (pasword !== cnfPassword) {

@@ -5,6 +5,14 @@ import logo from "./assets/icons8-briefcase-128.png"
 
 export const Layout = () => {
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.warn("[AUTH] No token found in Layout. Redirecting to login.");
+            navigate('/login');
+        }
+    }, [navigate]);
     
     const handleLogout = () => {
         localStorage.removeItem('token');

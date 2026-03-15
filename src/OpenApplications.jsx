@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './openapplications.module.css';
 import { ScheduleInterviewModal } from './ScheduleInterviewModal';
-import { api } from './utils/api';
+import { API_BASE_URL } from './utils/constants';
+import { handleTokenRefresh } from './utils/api';
 
 export const OpenApplications = () => {
     const [applications, setApplications] = useState([]);
@@ -10,8 +11,30 @@ export const OpenApplications = () => {
     const [schedulingApp, setSchedulingApp] = useState(null);
 
     const fetchApplications = async () => {
+        let token = localStorage.getItem('token');
         try {
-            const response = await api.get('/applications');
+            let response = await fetch(`${API_BASE_URL}/applications`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include'
+            });
+
+            if (response.status === 401) {
+                const newToken = await handleTokenRefresh();
+                if (newToken) {
+                    response = await fetch(`${API_BASE_URL}/applications`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${newToken}`
+                        },
+                        credentials: 'include'
+                    });
+                }
+            }
 
             if (response.ok) {
                 const data = await response.json();
@@ -21,7 +44,9 @@ export const OpenApplications = () => {
                 );
                 setApplications(openApps);
             } else {
-                setError('Failed to load applications.');
+                if (response.status !== 401) {
+                    setError('Failed to load applications.');
+                }
             }
         } catch (err) {
             setError(err.message || 'Something went wrong.');
@@ -35,13 +60,39 @@ export const OpenApplications = () => {
     }, []);
 
     const handleStatusChange = async (appId, newStatus) => {
+        let token = localStorage.getItem('token');
         try {
-            const response = await api.patch(`/applications/${appId}/status`, { status: newStatus });
+            let response = await fetch(`${API_BASE_URL}/applications/${appId}/status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include',
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            if (response.status === 401) {
+                const newToken = await handleTokenRefresh();
+                if (newToken) {
+                    response = await fetch(`${API_BASE_URL}/applications/${appId}/status`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${newToken}`
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({ status: newStatus })
+                    });
+                }
+            }
 
             if (response.ok) {
                 fetchApplications(); // Refresh list to reflect changes
             } else {
-                alert('Failed to update status.');
+                if (response.status !== 401) {
+                    alert('Failed to update status.');
+                }
             }
         } catch (err) {
             alert('Error updating status: ' + err.message);

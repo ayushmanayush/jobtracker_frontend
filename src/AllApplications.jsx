@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './openapplications.module.css';
-import { api } from './utils/api';
+import { API_BASE_URL } from './utils/constants';
+import { handleTokenRefresh } from './utils/api';
 
 export const AllApplications = () => {
     const [applications, setApplications] = useState([]);
@@ -8,14 +9,38 @@ export const AllApplications = () => {
     const [error, setError] = useState(null);
 
     const fetchApplications = async () => {
+        let token = localStorage.getItem('token');
         try {
-            const response = await api.get('/applications');
+            let response = await fetch(`${API_BASE_URL}/applications`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include'
+            });
+
+            if (response.status === 401) {
+                const newToken = await handleTokenRefresh();
+                if (newToken) {
+                    response = await fetch(`${API_BASE_URL}/applications`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${newToken}`
+                        },
+                        credentials: 'include'
+                    });
+                }
+            }
 
             if (response.ok) {
                 const data = await response.json();
                 setApplications(data);
             } else {
-                setError('Failed to load applications.');
+                if (response.status !== 401) {
+                    setError('Failed to load applications.');
+                }
             }
         } catch (err) {
             setError(err.message || 'Something went wrong.');

@@ -1,12 +1,21 @@
 import styles from "./login.module.css"
 import logo from "./assets/icons8-briefcase-128.png"
 import googlelogo from "./assets/icons8-google-logo-94.png"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { API_BASE_URL } from "./utils/constants"
 import { extractToken, extractName } from "./utils/api"
 
 export const LoginForm = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
+
     function checkdata() {
         if (email === "") {
             alert("username Cannot be empty !!!!");
@@ -59,7 +68,6 @@ export const LoginForm = () => {
             alert("something went wrong");
         }
     }
-    const navigate = useNavigate();
     const [email, setMail] = useState(``);
     const [pasword, setPassword] = useState(``);
     return (

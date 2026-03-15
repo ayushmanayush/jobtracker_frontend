@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./dashboard.module.css";
 import { useNavigate } from "react-router-dom";
-import { api } from "./utils/api";
+import { API_BASE_URL } from "./utils/constants";
+import { handleTokenRefresh, handleUnauthorized } from "./utils/api";
 
 export const Dashboard = () => {
     const [stats, setStats] = useState({
@@ -17,16 +18,39 @@ export const Dashboard = () => {
 
     useEffect(() => {
         const fetchDashboardData = async () => {
-
+            let token = localStorage.getItem("token");
             try {
-                const response = await api.get("/dashboard");
+                let response = await fetch(`${API_BASE_URL}/dashboard`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    credentials: 'include'
+                });
+
+                if (response.status === 401) {
+                    const newToken = await handleTokenRefresh();
+                    if (newToken) {
+                        // Retry once
+                        response = await fetch(`${API_BASE_URL}/dashboard`, {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${newToken}`
+                            },
+                            credentials: 'include'
+                        });
+                    }
+                }
 
                 if (response.ok) {
                     const data = await response.json();
                     setStats(data);
-                    console.log(data);
                 } else {
-                    setError("Failed to fetch dashboard data.");
+                    if (response.status !== 401) {
+                        setError("Failed to fetch dashboard data.");
+                    }
                 }
             } catch (err) {
                 setError(err.message || "Something went wrong.");
