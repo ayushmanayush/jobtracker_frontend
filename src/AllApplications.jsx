@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './openapplications.module.css';
-import { fetchWithAuth } from './utils/api';
+import { api } from './utils/api';
 
 export const AllApplications = () => {
     const [applications, setApplications] = useState([]);
@@ -9,9 +9,7 @@ export const AllApplications = () => {
 
     const fetchApplications = async () => {
         try {
-            const response = await fetchWithAuth('https://jobtracker-backend-609f.onrender.com/applications', {
-                method: 'GET'
-            });
+            const response = await api.get('/applications');
 
             if (response.ok) {
                 const data = await response.json();

@@ -3,6 +3,9 @@ import logo from "./assets/icons8-briefcase-128.png"
 import googlelogo from "./assets/icons8-google-logo-94.png"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { API_BASE_URL } from "./utils/constants"
+import { extractToken, extractName } from "./utils/api"
+
 export const LoginForm = () => {
     function checkdata() {
         if (email === "") {
@@ -21,7 +24,7 @@ export const LoginForm = () => {
     }
     async function FetchData(obj) {
         try {
-            const data = await fetch("https://jobtracker-backend-609f.onrender.com/auth/login", {
+            const data = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -30,19 +33,29 @@ export const LoginForm = () => {
                 body: JSON.stringify(obj)
             });
             const response = await data.json();
+            // console.log("[LOGIN] Response from backend:", response);
+
             if (data.ok) {
-                alert("login Successfull");
-                const token = response.accessToken || response.token;
-                const name = response.fullName || response.name;
+                const token = extractToken(response);
+                const name = extractName(response);
                 
-                if (token) localStorage.setItem("token", token);
-                if (name) localStorage.setItem("name", name);
-                
-                navigate("/dashboard");
+                // console.log(`[LOGIN] Extracted: Token=${token ? 'YES' : 'NO'}, Name=${name || 'NONE'}`);
+
+                if (token) {
+                    localStorage.setItem("token", token);
+                    if (name) localStorage.setItem("name", name);
+                    alert("Login Successful");
+                    navigate("/dashboard");
+                } else {
+                    console.error("[LOGIN] Success status but no token found in response!");
+                    alert("Authentication succeeded but session token was missing.");
+                }
+            } else {
+                alert(response.message || "Login failed");
             }
         }
         catch (exception) {
-            console.log(exception.message);
+            console.error("[LOGIN] Crash:", exception.message);
             alert("something went wrong");
         }
     }
@@ -89,7 +102,7 @@ export const LoginForm = () => {
                 <div className={styles.separator}>or continue with</div>
 
                 <button onClick={() => {
-                    window.location.href = "https://jobtracker-backend-609f.onrender.com/oauth2/authorization/google"
+                    window.location.href = `${API_BASE_URL}/oauth2/authorization/google`
                 }} className={styles.googlebtn}>
                     <img src={googlelogo} alt="Google" />
                     Google

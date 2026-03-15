@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './schedulemodal.module.css';
-import { fetchWithAuth } from './utils/api';
+import { api } from './utils/api';
 
 export const ScheduleInterviewModal = ({ application, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
@@ -34,10 +34,7 @@ export const ScheduleInterviewModal = ({ application, onClose, onSuccess }) => {
                 scheduledAt: formattedDate
             };
 
-            const response = await fetchWithAuth('https://jobtracker-backend-609f.onrender.com/interviews', {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            });
+            const response = await api.post('/interviews', payload);
 
             if (response.ok) {
                 onSuccess();

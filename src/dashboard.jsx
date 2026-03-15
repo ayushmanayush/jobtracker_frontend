@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./dashboard.module.css";
 import { useNavigate } from "react-router-dom";
-import { fetchWithAuth } from "./utils/api";
+import { api } from "./utils/api";
 
 export const Dashboard = () => {
     const [stats, setStats] = useState({
@@ -17,16 +17,9 @@ export const Dashboard = () => {
 
     useEffect(() => {
         const fetchDashboardData = async () => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                navigate("/login");
-                return;
-            }
 
             try {
-                const response = await fetchWithAuth("https://jobtracker-backend-609f.onrender.com/dashboard", {
-                    method: "GET"
-                });
+                const response = await api.get("/dashboard");
 
                 if (response.ok) {
                     const data = await response.json();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './openapplications.module.css'; // Reusing styles for consistency
-import { fetchWithAuth } from './utils/api';
+import { api } from './utils/api';
 
 export const OpenInterviews = () => {
     const [interviews, setInterviews] = useState([]);
@@ -9,7 +9,7 @@ export const OpenInterviews = () => {
 
     const fetchInterviews = async () => {
         try {
-            const response = await fetchWithAuth('https://jobtracker-backend-609f.onrender.com/interviews/open');
+            const response = await api.get('/interviews/open');
             if (response.ok) {
                 const data = await response.json();
                 setInterviews(data);
@@ -29,9 +29,7 @@ export const OpenInterviews = () => {
 
     const handleComplete = async (interviewId) => {
         try {
-            const response = await fetchWithAuth(`https://jobtracker-backend-609f.onrender.com/interviews/${interviewId}`, {
-                method: 'PATCH'
-            });
+            const response = await api.patch(`/interviews/${interviewId}`, {});
             if (response.ok) {
                 fetchInterviews(); // Refresh list
             } else {

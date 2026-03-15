@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './applyjobs.module.css';
-import { fetchWithAuth } from './utils/api';
+import { api } from './utils/api';
 
 export const ApplyJobs = () => {
     const [formData, setFormData] = useState({
@@ -21,10 +21,7 @@ export const ApplyJobs = () => {
         setMessage({ type: '', text: '' });
 
         try {
-            const response = await fetchWithAuth('https://jobtracker-backend-609f.onrender.com/applications', {
-                method: 'POST',
-                body: JSON.stringify(formData)
-            });
+            const response = await api.post('/applications', formData);
 
             if (response.ok) {
                 setMessage({ type: 'success', text: 'Application submitted successfully!' });

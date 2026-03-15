@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './openapplications.module.css';
 import { ScheduleInterviewModal } from './ScheduleInterviewModal';
-import { fetchWithAuth } from './utils/api';
+import { api } from './utils/api';
 
 export const OpenApplications = () => {
     const [applications, setApplications] = useState([]);
@@ -11,9 +11,7 @@ export const OpenApplications = () => {
 
     const fetchApplications = async () => {
         try {
-            const response = await fetchWithAuth('https://jobtracker-backend-609f.onrender.com/applications', {
-                method: 'GET'
-            });
+            const response = await api.get('/applications');
 
             if (response.ok) {
                 const data = await response.json();
@@ -38,10 +36,7 @@ export const OpenApplications = () => {
 
     const handleStatusChange = async (appId, newStatus) => {
         try {
-            const response = await fetchWithAuth(`https://jobtracker-backend-609f.onrender.com/applications/${appId}/status`, {
-                method: 'PATCH',
-                body: JSON.stringify({ status: newStatus })
-            });
+            const response = await api.patch(`/applications/${appId}/status`, { status: newStatus });
 
             if (response.ok) {
                 fetchApplications(); // Refresh list to reflect changes

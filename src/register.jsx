@@ -3,6 +3,7 @@ import logo from "./assets/icons8-briefcase-128.png"
 import googlelogo from "./assets/icons8-google-logo-94.png"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { API_BASE_URL } from "./utils/constants"
 export const RegisterForm = () => {
     const [name, setName] = useState(``);
     const [email, setMail] = useState(``);
@@ -35,7 +36,7 @@ export const RegisterForm = () => {
 
     async function fetchdata(obj) {
         try {
-            const data = await fetch("https://jobtracker-backend-609f.onrender.com/auth/register", {
+            const data = await fetch(`${API_BASE_URL}/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -99,7 +100,7 @@ export const RegisterForm = () => {
                 <div className={styles.separator}>or register with</div>
 
                 <button onClick={() => {
-                    window.location.href = "https://jobtracker-backend-609f.onrender.com/oauth2/authorization/google";
+                    window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
                 }} className={styles.googlebtn}>
                     <img src={googlelogo} alt="Google" />
                     Google
