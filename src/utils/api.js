@@ -36,6 +36,9 @@ export const extractName = (data) => {
 
 export const handleTokenRefresh = async () => {
     console.warn("[AUTH] Attempting background refresh...");
+    setTimeout(() =>{
+            console.log("Trying /refresh endpoint");
+    },10000)
     try {
         const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
             method: 'POST',
@@ -44,8 +47,11 @@ export const handleTokenRefresh = async () => {
 
         if (refreshResponse.ok) {
             const data = await refreshResponse.json();
-            const newToken = extractToken(data);
-            const newName = extractName(data);
+            const newToken = refreshResponse.accessToken;
+            const newName = refreshResponse.fullName;
+            setTimeout(()=>{
+                console.log(data);
+            },10000);
 
             if (newToken) {
                 localStorage.setItem('token', newToken);

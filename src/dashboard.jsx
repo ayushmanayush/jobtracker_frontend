@@ -19,6 +19,7 @@ export const Dashboard = () => {
     useEffect(() => {
         const fetchDashboardData = async () => {
             let token = localStorage.getItem("token");
+            setTimeout(()=>{console.log(token)},10000)
             try {
                 let response = await fetch(`${API_BASE_URL}/dashboard`, {
                     method: "GET",
@@ -30,6 +31,9 @@ export const Dashboard = () => {
                 });
 
                 if (response.status === 401) {
+                    setTimeout(()=>{
+                        console.log("Error happened Retrying....");
+                    },10000);
                     const newToken = await handleTokenRefresh();
                     if (newToken) {
                         // Retry once
