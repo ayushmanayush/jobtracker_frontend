@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './applyjobs.module.css';
-import { api } from './utils/api';
+
+import { API_BASE_URL } from './utils/constants';
+import { handleTokenRefresh } from './utils/api';
 
 export const ApplyJobs = () => {
     const [formData, setFormData] = useState({
@@ -20,14 +22,40 @@ export const ApplyJobs = () => {
         setLoading(true);
         setMessage({ type: '', text: '' });
 
+        let token = localStorage.getItem('token');
         try {
-            const response = await api.post('/applications', formData);
+            let response = await fetch(`${API_BASE_URL}/applications`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include',
+                body: JSON.stringify(formData)
+            });
+
+            if (response.status === 401) {
+                const newToken = await handleTokenRefresh();
+                if (newToken) {
+                    response = await fetch(`${API_BASE_URL}/applications`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${newToken}`
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify(formData)
+                    });
+                }
+            }
 
             if (response.ok) {
                 setMessage({ type: 'success', text: 'Application submitted successfully!' });
                 setFormData({ companyName: '', role: '', appliedDate: new Date().toISOString().split('T')[0] });
             } else {
-                setMessage({ type: 'error', text: 'Failed to submit application. Please try again.' });
+                if (response.status !== 401) {
+                    setMessage({ type: 'error', text: 'Failed to submit application. Please try again.' });
+                }
             }
         } catch (error) {
             setMessage({ type: 'error', text: error.message || 'Something went wrong.' });

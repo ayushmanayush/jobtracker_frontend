@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './schedulemodal.module.css';
-import { api } from './utils/api';
+import { API_BASE_URL } from './utils/constants';
+import { handleTokenRefresh } from './utils/api';
 
 export const ScheduleInterviewModal = ({ application, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ export const ScheduleInterviewModal = ({ application, onClose, onSuccess }) => {
         setLoading(true);
         setError(null);
 
+        let token = localStorage.getItem('token');
         try {
             // Format datetime-local to what backend expects
             let formattedDate = formData.scheduledAt;
@@ -34,12 +36,37 @@ export const ScheduleInterviewModal = ({ application, onClose, onSuccess }) => {
                 scheduledAt: formattedDate
             };
 
-            const response = await api.post('/interviews', payload);
+            let response = await fetch(`${API_BASE_URL}/interviews`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include',
+                body: JSON.stringify(payload)
+            });
+
+            if (response.status === 401) {
+                const newToken = await handleTokenRefresh();
+                if (newToken) {
+                    response = await fetch(`${API_BASE_URL}/interviews`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${newToken}`
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify(payload)
+                    });
+                }
+            }
 
             if (response.ok) {
                 onSuccess();
             } else {
-                setError('Failed to schedule interview.');
+                if (response.status !== 401) {
+                    setError('Failed to schedule interview.');
+                }
             }
         } catch (err) {
             setError(err.message || 'Something went wrong.');
