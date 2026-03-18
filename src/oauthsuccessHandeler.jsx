@@ -2,13 +2,15 @@ import { useEffect } from "react";
 import styles from "./oauthsucceshandeler.module.css"
 import { useNavigate } from "react-router-dom"
 export const SuccessfullPage = () => {
+
     const navigate = useNavigate();
     useEffect(() => {
         const param = new URLSearchParams(window.location.search);
-        const token = param.get("token");
-        const name = param.get("name");
+        const token = decodeURIComponent(param.get("token"));
+        const name = decodeURIComponent(param.get("name"));
         if(token !== null && token !== undefined){
             localStorage.setItem("token", token);
+            
         }
         else{
             console.log("no token found")

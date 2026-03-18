@@ -110,7 +110,7 @@ export const LoginForm = () => {
                 <div className={styles.separator}>or continue with</div>
 
                 <button onClick={() => {
-                    window.location.href = `${API_BASE_URL}/oauth2/authorization/google`
+                    window.location.href = `${API_BASE_URL}/oauth2/authorization/google?state=LOCAL`
                 }} className={styles.googlebtn}>
                     <img src={googlelogo} alt="Google" />
                     Google
