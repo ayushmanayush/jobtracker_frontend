@@ -9,14 +9,17 @@ export const SuccessfullPage = () => {
         const token = decodeURIComponent(param.get("token"));
         const name = decodeURIComponent(param.get("name"));
         if(token !== null && token !== undefined){
-            localStorage.setItem("token", token);
-            
+            localStorage.setItem("token", token);   
         }
         else{
             console.log("no token found")
             navigate("/login");
             return;
         }
+        setTimeout(()=>{
+            console.log(localStorage.getItem("token"));
+            console.log(localStorage.getItem("name"));
+        },10000);
             if(name !== null && name !== undefined){localStorage.setItem("name", name);}
             console.log("[OAUTH] Session stored. Redirecting to dashboard...");
             navigate("/dashboard");
