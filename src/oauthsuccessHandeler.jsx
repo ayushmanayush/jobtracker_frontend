@@ -16,12 +16,12 @@ export const SuccessfullPage = () => {
             navigate("/login");
             return;
         }
-        setTimeout(()=>{
+            if(name !== null && name !== undefined){localStorage.setItem("name", name);}
+            console.log("[OAUTH] Session stored. Redirecting to dashboard...");
+            setTimeout(()=>{
             console.log(localStorage.getItem("token"));
             console.log(localStorage.getItem("name"));
         },10000);
-            if(name !== null && name !== undefined){localStorage.setItem("name", name);}
-            console.log("[OAUTH] Session stored. Redirecting to dashboard...");
             navigate("/dashboard");
     }, [navigate]);
     return <div className={styles.MainBody}>
