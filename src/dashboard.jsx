@@ -17,54 +17,56 @@ export const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchDashboardData = async () => {
-            let token = localStorage.getItem("token");
-            setTimeout(()=>{console.log(token)},10000)
-            try {
-                let response = await fetch(`${API_BASE_URL}/dashboard`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    },
-                    credentials: 'include'
-                });
+    const fetchDashboardData = async () => {
 
-                if (response.status === 401) {
-                    setTimeout(()=>{
-                        console.log("Error happened Retrying....");
-                    },10000);
-                    const newToken = await handleTokenRefresh();
-                    if (newToken) {
-                        // Retry once
-                        response = await fetch(`${API_BASE_URL}/dashboard`, {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${newToken}`
-                            },
-                            credentials: 'include'
-                        });
-                    }
-                }
+        let token = localStorage.getItem("token");
 
-                if (response.ok) {
-                    const data = await response.json();
-                    setStats(data);
+        if (!token) {
+            handleUnauthorized("No token found");
+            return;
+        }
+
+        try {
+            let response = await fetch(`${API_BASE_URL}/dashboard`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                credentials: 'include'
+            });
+
+            if (response.status === 401) {
+                const newToken = await handleTokenRefresh();
+
+                if (newToken) {
+                    response = await fetch(`${API_BASE_URL}/dashboard`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${newToken}`
+                        },
+                        credentials: 'include'
+                    });
                 } else {
-                    if (response.status !== 401) {
-                        setError("Failed to fetch dashboard data.");
-                    }
+                    return;
                 }
-            } catch (err) {
-                setError(err.message || "Something went wrong.");
-            } finally {
-                setLoading(false);
             }
-        };
 
-        fetchDashboardData();
-    }, [navigate]);
+            if (response.ok) {
+                const data = await response.json();
+                setStats(data);
+            } else if (response.status !== 401) {
+                setError("Failed to fetch dashboard data.");
+            }
+
+        } catch (err) {
+            setError(err.message || "Something went wrong.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchDashboardData();
+}, []);
 
     return (
         <div className={styles.dashboardContainer}>
