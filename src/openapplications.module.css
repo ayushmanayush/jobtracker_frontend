@@ -7,6 +7,9 @@
 .header {
     margin-bottom: 8px;
 }
+.title{
+    color: black;
+}
 
 .header h2 {
     color: #0f172a;

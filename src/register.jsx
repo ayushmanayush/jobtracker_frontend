@@ -107,7 +107,8 @@ export const RegisterForm = () => {
                 <div className={styles.separator}>or register with</div>
 
                 <button onClick={() => {
-                    window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
+                    // window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
+                    alert("Will be available shortly!!");
                 }} className={styles.googlebtn}>
                     <img src={googlelogo} alt="Google" />
                     Google
